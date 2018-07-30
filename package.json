@@ -1,15 +1,20 @@
 {
   "name": "scl-parser",
-  "version": "1.0.0",
+  "version": "0.3.0",
   "description": "A library for parsing System Context Language documents.",
-  "main": "src/parsing.ts",
+  "main": "lib/index.js",
   "scripts": {
+    "build": "parcel build ./index.ts --out-dir ./lib",
     "test": "jest",
     "test:watch": "jest --watchAll"
   },
   "keywords": [],
-  "author": "",
+  "author": "Ryan Smith <rys@pobox.com>",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ryascl/scl-parser-js.git"
+  },
   "devDependencies": {
     "@types/jest": "^22.1.1",
     "jest": "*",

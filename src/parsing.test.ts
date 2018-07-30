@@ -49,7 +49,7 @@ describe('parseConcept', () => {
       name: 'Brown Bear',
       resources: [
         {
-          type: ResourceType.Image,
+          type: "image",
           location: 'https://i.imgur.com/XH8NDjz.jpg'
         }
       ]
@@ -75,7 +75,6 @@ Time Travel
     expect(concepts.length).toBe(2);
     expect(concepts[0].name).toBe('Flux Capacitor');
     expect(concepts[0].parent).toBe('A DeLorean');
-
     expect(concepts[1].name).toBe('Time Travel');
   });
 

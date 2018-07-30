@@ -1,4 +1,4 @@
-import { Concept, Relation, ContainsStatement, Resource, ResourceType } from "./models";
+import { Concept, Relation, ContainsStatement, Resource } from "./models";
 
 const ConceptPattern = /^([^\s].+)/;
 const RelationPattern = /\s+<(.+)> (.+)/;
@@ -15,10 +15,13 @@ export function parseConcepts(document: string): Concept[] {
   return concepts;
 }
 
-function parseConcept(lines: string[]): Concept | void {
-  let concept: Concept | void  = null;
+function parseConcept(lines: string[]): Concept | null {
+  let concept: Concept | null = null;
+  const relations = [];
+  const resources = [];
+
   while(lines.length > 0) {
-    const line = lines.shift();
+    const line: string = lines.shift() || '';
     if(!concept){
 
       // scan
@@ -31,8 +34,6 @@ function parseConcept(lines: string[]): Concept | void {
       if(!concept){
         throw new Error(`Could not parse concept from ${line}`);
       }
-      concept.relations = [];
-      concept.resources = [];
       continue;
 
     } else {
@@ -49,19 +50,32 @@ function parseConcept(lines: string[]): Concept | void {
 
       const relation = tryParseRelation(line);
       if(relation){
-        concept.relations.push(relation);
+        relations.push(relation);
         continue;
       }
 
       const resource = tryParseResource(line);
       if(resource){
-        concept.resources.push(resource);
+        resources.push(resource);
+        continue;
       }
 
       console.warn(`Ignoring line ${line}`);
     }
 
   }
+
+  if(!concept){
+    return null;
+  }
+
+  if(relations.length > 0){
+    concept.relations = relations;
+  }
+  if(resources.length > 0){
+    concept.resources = resources;
+  }
+
   return concept;
 }
 
@@ -77,10 +91,10 @@ function tryParseRelation(line: string): Relation | void {
   };
 }
 
-function tryParseConcept(line: string): Concept | void {
+function tryParseConcept(line: string): Concept | null {
   const match = line.match(ConceptPattern);
   if (!match) {
-    return;
+    return null;
   }
 
   return {
@@ -88,10 +102,10 @@ function tryParseConcept(line: string): Concept | void {
   };
 }
 
-function tryParseContains(line: string): ContainsStatement | void {
+function tryParseContains(line: string): ContainsStatement | null {
   const match = line.match(ContainsPattern);
   if (!match) {
-    return;
+    return null;
   }
 
   return {
@@ -99,14 +113,14 @@ function tryParseContains(line: string): ContainsStatement | void {
   };
 }
 
-function tryParseResource(line: string): Resource {
+function tryParseResource(line: string): Resource | null {
   const match = line.match(ResourcePattern);
   if(!match){
-    return;
+    return null;
   }
 
   return {
-    type: ResourceType.Image,
+    type: "image",
     location: match[1]
   };
 }

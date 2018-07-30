@@ -11,9 +11,7 @@ export interface Resource {
   location: string;
 }
 
-export enum ResourceType {
-  Image
-}
+export type ResourceType = "image";
 
 export interface Relation {
   target: string;
