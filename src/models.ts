@@ -1,4 +1,10 @@
 
+export interface SCLDocument {
+  // title?: string,       // todo
+  // description?: string, // todo
+  concepts: Concept[];
+}
+
 export interface Concept {
   name: string;
   parent?: string;
@@ -15,7 +21,7 @@ export type ResourceType = "image";
 
 export interface Relation {
   target: string;
-  label: string;
+  label?: string;
 }
 
 export interface ContainsStatement {

@@ -1,18 +1,20 @@
-import { Concept, Relation, ContainsStatement, Resource } from "./models";
+import { Concept, Relation, ContainsStatement, Resource, SCLDocument } from "./models";
 
 const ConceptPattern = /^([^\s].+)/;
 const RelationPattern = /\s+<(.+)> (.+)/;
 const ContainsPattern = /\s+is in (.+)/;
 const ResourcePattern = /\s+has image at (.+)/
 
-export function parseConcepts(document: string): Concept[] {
+export function parseDocument(document: string): SCLDocument {
   const concepts = [];
   const lines = document.split('\n');
   let concept;
   while(concept = parseConcept(lines)){
     concepts.push(concept);
   }
-  return concepts;
+  return {
+    concepts
+  };
 }
 
 function parseConcept(lines: string[]): Concept | null {

@@ -1,10 +1,10 @@
 import { Concept, ResourceType } from './models';
-import { parseConcepts } from './parsing';
+import { parseDocument } from './parsing';
 
 describe('parseConcept', () => {
 
   function expectParsedConcept(text: string, expected: Concept){
-    const concepts = parseConcepts(text);
+    const concepts = parseDocument(text).concepts;
     expect(concepts.length).toBe(1);
     const concept = concepts[0];
     if(concept.relations && !concept.relations.length){
@@ -71,7 +71,7 @@ Time Travel
 
 `;
 
-    const concepts = parseConcepts(document);
+    const concepts = parseDocument(document).concepts;
     expect(concepts.length).toBe(2);
     expect(concepts[0].name).toBe('Flux Capacitor');
     expect(concepts[0].parent).toBe('A DeLorean');
