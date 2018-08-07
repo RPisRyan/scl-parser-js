@@ -1,6 +1,6 @@
 
 export interface SCLDocument {
-  // title?: string,       // todo
+  title?: string,
   // description?: string, // todo
   concepts: Concept[];
 }

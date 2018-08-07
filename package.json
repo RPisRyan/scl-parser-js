@@ -1,14 +1,11 @@
 {
   "name": "scl-parser",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "A library for parsing System Context Language documents.",
   "author": "Ryan Smith <rys@pobox.com>",
   "license": "ISC",
   "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
+  "source": "src/index.ts",
   "scripts": {
     "start": "microbundle watch",
     "build": "microbundle",
@@ -23,7 +20,7 @@
     "jest": "^22.1.4",
     "microbundle": "^0.6.0",
     "ts-jest": "^22.0.1",
-    "typescript": "^2.9.2"
+    "typescript": "^3.0.0"
   },
   "jest": {
     "moduleFileExtensions": [
