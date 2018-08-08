@@ -9,7 +9,15 @@ export interface Concept {
   name: string;
   parent?: string;
   relations?: Relation[];
-  resources?: Resource[];
+  image?: string;
+  width?: string;
+  height?: string;
+}
+
+export interface Image {
+  path: string;
+  width?: string,
+  height?: string 
 }
 
 export interface Resource {

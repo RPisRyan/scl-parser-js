@@ -10,9 +10,6 @@ describe('parseConcept', () => {
     if(concept.relations && !concept.relations.length){
       delete concept.relations;
     }
-    if(concept.resources && !concept.resources.length) {
-      delete concept.resources;
-    }
     expect(concepts[0]).toEqual(expected);
   }
 
@@ -44,16 +41,28 @@ describe('parseConcept', () => {
     });
   });
 
-  test('parses image resource', () => {
-    expectParsedConcept(`Brown Bear\n  has image at https://i.imgur.com/XH8NDjz.jpg`, {
+  test('parses image concept', () => {
+    expectParsedConcept(`Brown Bear\n  image: https://i.imgur.com/XH8NDjz.jpg \n  width: 400\n  height: 300`, {
       name: 'Brown Bear',
-      resources: [
-        {
-          type: "image",
-          location: 'https://i.imgur.com/XH8NDjz.jpg'
-        }
+      image: 'https://i.imgur.com/XH8NDjz.jpg',
+      width: '400',
+      height: '300'
+    });
+  });
+
+  test('parse image concept 2', () => {
+
+    const scl = `Lead Time view
+  image: https://confluence.nike.com/download/attachments/238410415/Lead_time_msg__As-is_PDP.jpg
+  <Get message> Lead Time Legacy`;
+    expectParsedConcept(scl, {
+      name: 'Lead Time view',
+      image: 'https://confluence.nike.com/download/attachments/238410415/Lead_time_msg__As-is_PDP.jpg',
+      relations: [
+        { label: 'Get message', target: 'Lead Time Legacy'}
       ]
     });
+
   });
 
 });

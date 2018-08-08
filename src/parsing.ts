@@ -3,7 +3,8 @@ import { Concept, Relation, ContainsStatement, Resource, SCLDocument } from "./m
 const ConceptPattern = /^([^\s].+)/;
 const RelationPattern = /\s+<(.+)> (.+)/;
 const ContainsPattern = /\s+is in (.+)/;
-const ResourcePattern = /\s+has image at (.+)/
+const ImagePattern = /\s+has image at (.+)/;
+const AttributePattern = /\s+(\w+)\: ?(.+)/;
 
 export function parseDocument(document: string): SCLDocument {
   const concepts = [];
@@ -20,7 +21,6 @@ export function parseDocument(document: string): SCLDocument {
 function parseConcept(lines: string[]): Concept | null {
   let concept: Concept | null = null;
   const relations = [];
-  const resources = [];
 
   while(lines.length > 0) {
     const line: string = lines.shift() || '';
@@ -56,9 +56,9 @@ function parseConcept(lines: string[]): Concept | null {
         continue;
       }
 
-      const resource = tryParseResource(line);
-      if(resource){
-        resources.push(resource);
+      const attribute = tryParseAttribute(line);
+      if(attribute){
+        concept[attribute[0]] = attribute[1];
         continue;
       }
 
@@ -73,9 +73,6 @@ function parseConcept(lines: string[]): Concept | null {
 
   if(relations.length > 0){
     concept.relations = relations;
-  }
-  if(resources.length > 0){
-    concept.resources = resources;
   }
 
   return concept;
@@ -115,14 +112,20 @@ function tryParseContains(line: string): ContainsStatement | null {
   };
 }
 
-function tryParseResource(line: string): Resource | null {
-  const match = line.match(ResourcePattern);
+function tryParseImage(line: string): string | null {
+  const match = line.match(ImagePattern);
   if(!match){
     return null;
   }
 
-  return {
-    type: "image",
-    location: match[1]
-  };
+  return match[1];
+}
+
+function tryParseAttribute(line: string): [string, string] | null {
+  const match = line.match(AttributePattern);
+  if(!match){
+    return null;
+  }
+
+  return [match[1].trim(), match[2].trim()];
 }
