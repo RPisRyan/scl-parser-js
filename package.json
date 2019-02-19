@@ -11,10 +11,7 @@
     "build": "microbundle",
     "test": "jest --config=jest.json"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ryascl/scl-parser-js.git"
-  },
+  "repository" : "github:ryascl/scl-parser-js",
   "devDependencies": {
     "@types/jest": "^22.1.0",
     "jest": "^22.1.4",
